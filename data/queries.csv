@@ -1,0 +1,61 @@
+﻿query_id,query,label,relevant_doc_id
+Q001,BM25 的主要作用是什么？,fact,D02
+Q002,TF-IDF 的英文全称是什么？,fact,D03
+Q003,RAG 这个缩写指什么？,fact,D01
+Q004,Accuracy 衡量什么？,fact,D10
+Q005,MRR 根据什么排名信息计算？,fact,D11
+Q006,线性 SVM 适合哪类文本特征？,fact,D09
+Q007,逻辑回归的输出可以解释成什么？,fact,D08
+Q008,朴素贝叶斯使用什么定理？,fact,D07
+Q009,RRF 的英文全称是什么？,fact,D20
+Q010,余弦相似度衡量什么？,fact,D19
+Q011,训练集的主要用途是什么？,fact,D15
+Q012,检索增强生成的基本流程有哪些环节？,fact,D12
+Q013,查询分类是什么任务？,fact,D06
+Q014,Recall@K 用于评估什么？,fact,D11
+Q015,BM25 会考虑文档长度吗？,fact,D02
+Q016,文本分类常见的 TF-IDF 特征是什么？,fact,D16
+Q017,什么是检索策略路由？,fact,D17
+Q018,生成模型为什么需要上下文证据？,fact,D01
+Q019,Macro-F1 为什么值得报告？,fact,D10
+Q020,测试集应该用于什么阶段？,fact,D15
+Q021,为什么 RAG 可能降低大模型的幻觉？,explain,D01
+Q022,为什么 TF-IDF 对同义表达的理解有限？,explain,D03
+Q023,向量检索如何处理词面不同但含义相近的问题？,explain,D04
+Q024,为什么分类器的标签需要人工检查？,explain,D06
+Q025,朴素贝叶斯的独立性假设有什么含义？,explain,D07
+Q026,为什么类别不均衡时不能只看准确率？,explain,D10
+Q027,为什么 RAG 系统仍然可能生成错误答案？,explain,D13
+Q028,为什么查询长度不能单独代表复杂度？,explain,D14
+Q029,为什么测试集不能参与超参数选择？,explain,D15
+Q030,为什么要做特征消融实验？,explain,D16
+Q031,为什么自适应检索需要和固定检索对照？,explain,D17
+Q032,为什么不同检索器的分数融合可能有问题？,explain,D20
+Q033,为什么高相似度不一定代表事实相关？,explain,D19
+Q034,为什么检索遗漏会影响最终生成质量？,explain,D12
+Q035,为什么要控制不同系统的 Top-K？,explain,D18
+Q036,为什么混合检索可能比单一检索更稳健？,explain,D05
+Q037,为什么逻辑回归适合作为文本分类基线？,explain,D08
+Q038,为什么线性 SVM 常用于高维稀疏文本？,explain,D09
+Q039,为什么训练和测试中出现近重复问题会造成泄漏？,explain,D15
+Q040,为什么需要同时检查检索指标和答案指标？,explain,D13
+Q041,比较 BM25 和 TF-IDF 检索的特点。,compare,D02
+Q042,对比关键词检索、向量检索和混合检索的优缺点。,compare,D05
+Q043,比较朴素贝叶斯、逻辑回归和 SVM 在文本分类中的特点。,compare,D09
+Q044,比较 Accuracy 和 Macro-F1 适用的评价场景。,compare,D10
+Q045,比较 Recall@K 与 MRR 反映的检索能力。,compare,D11
+Q046,比较训练集、验证集和测试集的用途。,compare,D15
+Q047,比较 RAG 与仅依赖模型参数生成答案的方式。,compare,D01
+Q048,比较 TF-IDF 检索和语义向量检索的适用情况。,compare,D04
+Q049,比较固定检索与自适应检索的优点和风险。,compare,D17
+Q050,比较余弦相似度与关键词匹配的差别。,compare,D19
+Q051,比较朴素贝叶斯的概率假设与 SVM 的间隔最大化思想。,compare,D07
+Q052,比较逻辑回归与线性 SVM 的可解释性和分类方式。,compare,D08
+Q053,比较 RRF 与直接加权原始检索分数的思路。,compare,D20
+Q054,比较 RAG 检索质量、答案正确性和证据一致性。,compare,D13
+Q055,比较文本长度特征与语义向量特征的作用。,compare,D16
+Q056,比较单跳事实问题与跨文档综合问题的检索需求。,compare,D14
+Q057,比较查询分类准确率与最终 RAG 效果之间的关系。,compare,D17
+Q058,比较检索召回率与系统响应延迟之间的权衡。,compare,D18
+Q059,比较文档聚类与查询分类在 RAG 中的用途。,compare,D06
+Q060,比较 BM25、TF-IDF 和 RRF 融合在检索排序中的作用。,compare,D20
