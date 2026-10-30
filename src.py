@@ -107,35 +107,120 @@ def retrieve(query, docs, retrievers, method="bm25", top_k=3):
     inds = np.argsort(-scores)[:top_k]
     return [(int(i), float(scores[i])) for i in inds]
 
+
 def evaluate_retrieval(qs, docs, retrievers, classifier=None):
     rows = []
-    mapping = {"fact": "bm25", "explain": "tfidf", "compare": "hybrid"}
+
+    mapping = {
+        "fact": "bm25",
+        "explain": "tfidf",
+        "compare": "hybrid"
+    }
+
     for _, row in qs.iterrows():
+        query = str(row["query"])
         gold = str(row["relevant_doc_id"])
-        for method in ["bm25", "tfidf", "hybrid"]:
-            ranked = retrieve(row["query"], docs, retrievers, method=method, top_k=3)
-            doc_ids = [str(docs.iloc[i]["doc_id"]) for i, _ in ranked]
-            hit = int(gold in doc_ids)
-            rank = doc_ids.index(gold)+1 if gold in doc_ids else None
-            rows.append({"query_id": row["query_id"], "system": method, "hit_at_3": hit,
-                         "reciprocal_rank": 1/rank if rank else 0})
+        true_label = str(row["label"])
+
+        # 使用分类器预测查询类别
+        predicted_label = ""
+        classification_correct = ""
+
         if classifier is not None:
-            predicted = classifier.predict([row["query"]])[0]
-            method = mapping[predicted]
-            ranked = retrieve(row["query"], docs, retrievers, method=method, top_k=3)
-            doc_ids = [str(docs.iloc[i]["doc_id"]) for i, _ in ranked]
+            predicted_label = classifier.predict([query])[0]
+            classification_correct = int(
+                predicted_label == true_label
+            )
+
+        # 记录三种固定检索策略
+        for method in ["bm25", "tfidf", "hybrid"]:
+            ranked = retrieve(
+                query, docs, retrievers,
+                method=method, top_k=3
+            )
+
+            doc_ids = [
+                str(docs.iloc[i]["doc_id"])
+                for i, _ in ranked
+            ]
+
             hit = int(gold in doc_ids)
-            rank = doc_ids.index(gold)+1 if gold in doc_ids else None
-            rows.append({"query_id": row["query_id"], "system": "adaptive", "hit_at_3": hit,
-                         "reciprocal_rank": 1/rank if rank else 0})
+            rank = (
+                doc_ids.index(gold) + 1
+                if hit else None
+            )
+
+            rows.append({
+                "query_id": row["query_id"],
+                "query": query,
+                "true_label": true_label,
+                "predicted_label": predicted_label,
+                "classification_correct": classification_correct,
+                "system": method,
+                "selected_method": method,
+                "gold_doc_id": gold,
+                "top3_doc_ids": " | ".join(doc_ids),
+                "hit_at_3": hit,
+                "gold_rank": rank if rank else "",
+                "reciprocal_rank": 1 / rank if rank else 0
+            })
+
+        # 记录自适应检索策略
+        if classifier is not None:
+            method = mapping[predicted_label]
+
+            ranked = retrieve(
+                query, docs, retrievers,
+                method=method, top_k=3
+            )
+
+            doc_ids = [
+                str(docs.iloc[i]["doc_id"])
+                for i, _ in ranked
+            ]
+
+            hit = int(gold in doc_ids)
+            rank = (
+                doc_ids.index(gold) + 1
+                if hit else None
+            )
+
+            rows.append({
+                "query_id": row["query_id"],
+                "query": query,
+                "true_label": true_label,
+                "predicted_label": predicted_label,
+                "classification_correct": classification_correct,
+                "system": "adaptive",
+                "selected_method": method,
+                "gold_doc_id": gold,
+                "top3_doc_ids": " | ".join(doc_ids),
+                "hit_at_3": hit,
+                "gold_rank": rank if rank else "",
+                "reciprocal_rank": 1 / rank if rank else 0
+            })
+
     raw = pd.DataFrame(rows)
+
     summary = raw.groupby("system", as_index=False).agg(
-        recall_at_3=("hit_at_3","mean"),
-        mrr_at_3=("reciprocal_rank","mean")
+        hit_rate_at_3=("hit_at_3", "mean"),
+        mrr_at_3=("reciprocal_rank", "mean")
     )
-    summary.to_csv(RESULTS/"retrieval_metrics.csv", index=False, encoding="utf-8-sig")
-    raw.to_csv(RESULTS/"retrieval_per_query.csv", index=False, encoding="utf-8-sig")
+
+    summary.to_csv(
+        RESULTS / "retrieval_metrics.csv",
+        index=False,
+        encoding="utf-8-sig"
+    )
+
+    raw.to_csv(
+        RESULTS / "retrieval_per_query.csv",
+        index=False,
+        encoding="utf-8-sig"
+    )
+
     return summary
+
 
 def main():
     docs, qs = load_data()
