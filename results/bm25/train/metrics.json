@@ -1,0 +1,13 @@
+{
+    "model": "BM25",
+    "tokenizer": "Jieba",
+    "split": "train",
+    "query_count": 15968,
+    "document_count": 118604,
+    "top_k": 10,
+    "k1": 1.5,
+    "b": 0.75,
+    "recall_at_10": 0.6163407061737208,
+    "mrr_at_10": 0.7857763393851194,
+    "ndcg_at_10": 0.6318941421131822
+}

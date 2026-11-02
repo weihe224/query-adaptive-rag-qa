@@ -1,0 +1,13 @@
+{
+    "model": "BM25",
+    "tokenizer": "Jieba",
+    "document_count": 118604,
+    "vocabulary_size": 821116,
+    "matrix_nnz": 22613712,
+    "average_document_length": 381.2092425213315,
+    "zero_token_document_count": 2,
+    "k1": 1.5,
+    "b": 0.75,
+    "data": "T2Retrieval",
+    "random_seed": 42
+}
