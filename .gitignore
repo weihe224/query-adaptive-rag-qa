@@ -4,3 +4,9 @@ __pycache__/
 *.pyc
 results/*.png
 results/*.csv
+
+# Downloaded benchmark datasets
+data/benchmark/
+
+# Hugging Face local cache, if configured here
+.cache/huggingface/
